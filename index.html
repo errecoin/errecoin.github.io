@@ -13,7 +13,7 @@
         import { EthersAdapter } from 'https://cdn.jsdelivr.net/npm/@reown/appkit-adapter-ethers@1.4.0/dist/index.js';
         import { bsc } from 'https://cdn.jsdelivr.net/npm/@reown/appkit@1.4.0/dist/networks.js';
 
-        const projectId = "TU_PROJECT_ID_AQUI"; 
+        const projectId = "335213e89cbbb7674f39fa05bb7fdd5c"; 
         const metadata = { name: 'eRRe Coin', description: 'DApp No Custodial', url: 'https://errecoin.netlify.app', icons: ['https://avatars.githubusercontent.com/u/179229932'] };
         const ethersAdapter = new EthersAdapter();
         window.appKitModal = createAppKit({ adapters: [ethersAdapter], networks: [bsc], metadata: metadata, projectId: projectId, features: { analytics: false } });
