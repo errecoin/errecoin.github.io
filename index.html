@@ -7,47 +7,34 @@
 <title>eRRe Coin | Trading Terminal</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
 <style>
-:root{
---gold:#f3ba2f;--bg:#0b0e11;--card:#171c22;--panel:#202630;
---input:#252d38;--text:#f5f7fa;--muted:#8b98a9;
---line:rgba(255,255,255,.08);--green:#0ecb81;--red:#f6465d
-}
+:root{--gold:#f3ba2f;--bg:#0b0e11;--card:#171c22;--panel:#202630;--input:#252d38;--text:#f5f7fa;--muted:#8b98a9;--line:rgba(255,255,255,.08);--green:#0ecb81;--red:#f6465d}
 *{box-sizing:border-box}
-body{margin:0;padding:15px 14px 90px;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;max-width:850px;margin-inline:auto}
-button,input,select{font:inherit}
-button{cursor:pointer}
+body{margin:0;padding:15px 14px 70px;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;max-width:1000px;margin-inline:auto}
+button,input,select{font:inherit}button{cursor:pointer}
 .header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:5px 0 18px}
-.brand{display:flex;align-items:center;gap:9px}
-.logo{width:38px;height:38px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font:800 25px Montserrat}
-.brand h1{font:800 19px Montserrat;margin:0}
-.brand h1 span{color:var(--gold)}
-.header-actions{display:flex;gap:7px}
-.small-btn{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:20px;padding:9px 11px;font-size:11px;font-weight:700}
+.brand{display:flex;align-items:center;gap:9px}.logo{width:38px;height:38px;border:2px solid var(--gold);border-radius:50%;display:grid;place-items:center;color:var(--gold);font:800 25px Montserrat}
+.brand h1{font:800 19px Montserrat;margin:0}.brand h1 span{color:var(--gold)}
+.header-actions{display:flex;gap:7px}.small-btn{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:20px;padding:9px 11px;font-size:11px;font-weight:700}
 .connect{background:var(--gold);color:#111;border:0}
 .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:15px}
 .tab{background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:11px;padding:12px 3px;font-weight:700;font-size:11px}
 .tab.active{background:#f3ba2f20;border-color:var(--gold);color:var(--gold)}
-.view{display:none}
-.view.active{display:block;animation:up .25s ease}
-@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.view{display:none}.view.active{display:block;animation:up .2s ease}
+@keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;margin-bottom:13px;box-shadow:0 8px 24px #0002}
-h2{font-size:17px;margin:0 0 7px}
-.muted,.hint{color:var(--muted);font-size:12px;line-height:1.5}
+h2{font-size:17px;margin:0 0 7px}.muted,.hint{color:var(--muted);font-size:12px;line-height:1.5}
 .label{display:block;color:var(--muted);font-size:11px;font-weight:700;margin:12px 0 7px;text-transform:uppercase}
 .field{width:100%;background:var(--input);border:1px solid var(--line);color:var(--text);border-radius:11px;padding:13px;outline:none;min-width:0}
 .field:focus{border-color:var(--gold)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .btn{width:100%;border:0;border-radius:12px;padding:14px;font-weight:800;margin-top:12px;background:var(--gold);color:#111}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.btn.secondary{background:var(--panel);color:var(--text);border:1px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:not-allowed}.btn.secondary{background:var(--panel);color:var(--text);border:1px solid var(--line)}
 .stat{background:var(--panel);border-radius:12px;padding:12px;min-width:0}
-.stat small{display:block;color:var(--muted);font-size:10px;margin-bottom:6px}
-.stat strong{font-size:15px;overflow-wrap:anywhere}
+.stat small{display:block;color:var(--muted);font-size:10px;margin-bottom:6px}.stat strong{font-size:14px;overflow-wrap:anywhere}
 .balance{font:800 29px Montserrat;color:var(--gold);margin:8px 0 12px;overflow-wrap:anywhere}
-.green-text{color:var(--green)!important}
-.red-text{color:var(--red)!important}
+.green-text{color:var(--green)!important}.red-text{color:var(--red)!important}
 .actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}
 .trade-btn{padding:15px;border:0;border-radius:12px;font-weight:900;font-size:14px}
 .buy{background:#0ecb8120;color:var(--green);border:1px solid #0ecb8160}
@@ -56,543 +43,417 @@ h2{font-size:17px;margin:0 0 7px}
 .notice{background:#f3ba2f12;border:1px solid #f3ba2f40;border-radius:11px;padding:11px;color:#e9c96e;font-size:11px;line-height:1.5;margin-top:12px}
 .status{text-align:center;margin-top:10px;min-height:18px;font-size:12px;color:var(--muted);overflow-wrap:anywhere}
 .item-head{display:flex;justify-content:space-between;gap:8px;align-items:center;margin-bottom:6px}
-.list-item{padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}
-.list-item:last-child{border:0}
+.list-item{padding:12px 0;border-bottom:1px solid var(--line);font-size:12px}.list-item:last-child{border:0}
 .empty{text-align:center;color:var(--muted);padding:18px 5px;font-size:12px}
-.footer{text-align:center;color:#657080;font-size:10px;padding:12px}
-.chart-wrap{width:100%;height:540px;overflow:hidden;border-radius:12px;background:#10151c}
-.chart-wrap iframe{width:100%;height:100%;border:0}
-.chart-tools{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.chart-box{width:100%;height:390px;border-radius:12px;overflow:hidden;background:#10151c;position:relative}
+.chart-box canvas{max-width:100%}.chart-tools{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.chart-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:10px;color:var(--muted);margin:10px 0}
+.legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
 body.light{--bg:#f3f5f7;--card:#fff;--panel:#edf0f4;--input:#e8ecf1;--text:#17202b;--muted:#657080;--line:rgba(0,0,0,.09)}
-@media(max-width:420px){
-body{padding-inline:10px}
-.brand h1{font-size:16px}
-.small-btn{padding:8px}
-.balance{font-size:25px}
-.tab{font-size:10px}
-.chart-wrap{height:470px}
-}
+@media(max-width:420px){body{padding-inline:10px}.brand h1{font-size:16px}.small-btn{padding:8px}.balance{font-size:25px}.tab{font-size:10px}.chart-box{height:330px}}
 </style>
 </head>
 <body>
-
 <header class="header">
-<div class="brand"><div class="logo">R</div><h1>eRRe <span>Coin</span></h1></div>
-<div class="header-actions">
-<button class="small-btn" id="themeBtn">Tema</button>
-<button class="small-btn connect" id="walletBtn">Conectar wallet</button>
-</div>
+ <div class="brand"><div class="logo">R</div><h1>eRRe <span>Coin</span></h1></div>
+ <div class="header-actions">
+  <button class="small-btn" id="themeBtn">Tema</button>
+  <button class="small-btn connect" id="walletBtn">Conectar wallet</button>
+ </div>
 </header>
-
 <nav class="tabs">
-<button class="tab active" data-view="demo">Demo</button>
-<button class="tab" data-view="chart">Gráfico</button>
-<button class="tab" data-view="swap">Swap</button>
-<button class="tab" data-view="history">Historial</button>
+ <button class="tab active" data-view="demo">Demo</button>
+ <button class="tab" data-view="chart">Gráfico</button>
+ <button class="tab" data-view="swap">Swap</button>
+ <button class="tab" data-view="history">Historial</button>
 </nav>
-
 <main>
-
 <section class="view active" id="demo">
-<div class="card">
-<div class="item-head"><h2>Cuenta de práctica</h2><span class="pill">DINERO VIRTUAL</span></div>
-<div class="muted">Balance disponible</div>
-<div class="balance" id="balance">$10,000.00</div>
-<div class="row3">
-<div class="stat"><small>Ganancia neta</small><strong id="netPnl">$0.00</strong></div>
-<div class="stat"><small>Operaciones</small><strong id="tradeCount">0</strong></div>
-<div class="stat"><small>Win rate</small><strong id="winRate">0%</strong></div>
-</div>
-<p class="hint">Balance virtual. No se utilizan fondos reales.</p>
-<button class="btn secondary" id="resetDemo">Reiniciar demo a $10,000</button>
-</div>
-
-<div class="card">
-<h2>Nueva operación</h2>
-<p class="muted">Configura tu entrada y gestión de riesgo.</p>
-<label class="label">Activo</label>
-<select class="field" id="asset">
-<option value="BTCUSDT">BTC / USDT</option>
-<option value="ETHUSDT">ETH / USDT</option>
-<option value="BNBUSDT">BNB / USDT</option>
-<option value="DOGEUSDT">DOGE / USDT</option>
-<option value="SOLUSDT">SOL / USDT</option>
-<option value="XRPUSDT">XRP / USDT</option>
-</select>
-<div class="row">
-<div><label class="label">Riesgo</label><select class="field" id="risk"><option value="0.5">0.5%</option><option value="1">1%</option></select></div>
-<div><label class="label">Precio de entrada</label><input class="field" id="entry" type="number" min="0" step="any" placeholder="Precio"></div>
-</div>
-<div class="row">
-<div><label class="label">Stop Loss</label><input class="field" id="stop" type="number" min="0" step="any" placeholder="SL"></div>
-<div><label class="label">Take Profit</label><input class="field" id="target" type="number" min="0" step="any" placeholder="TP"></div>
-</div>
-<div class="row" style="margin-top:10px">
-<div class="stat"><small>Riesgo en USDT</small><strong id="riskCash">$50.00</strong></div>
-<div class="stat"><small>Tamaño posición</small><strong id="positionSize">—</strong></div>
-</div>
-<div class="row" style="margin-top:8px">
-<div class="stat"><small>Ganancia estimada</small><strong class="green-text" id="potentialWin">—</strong></div>
-<div class="stat"><small>Pérdida estimada</small><strong class="red-text" id="potentialLoss">—</strong></div>
-</div>
-<div class="hint" id="rrInfo" style="margin-top:9px">Relación riesgo/beneficio: —</div>
-<div class="actions">
-<button class="trade-btn buy" id="longBtn">COMPRAR · LONG</button>
-<button class="trade-btn sell" id="shortBtn">VENDER · SHORT</button>
-</div>
-<div class="status" id="demoStatus">Consultando mercado...</div>
-<div class="notice">Modo de simulación. Los precios proceden de un feed público. No representa una orden real ni garantiza ejecución.</div>
-</div>
-
-<div class="card">
-<div class="item-head"><h2>Operaciones abiertas</h2><span class="pill" id="openCount">0 abiertas</span></div>
-<div id="openTrades" class="empty">No tienes operaciones abiertas.</div>
-</div>
+ <div class="card">
+  <div class="item-head"><h2>Cuenta de práctica</h2><span class="pill">DINERO VIRTUAL</span></div>
+  <div class="muted">Balance disponible</div>
+  <div class="balance" id="balance">$10,000.00</div>
+  <div class="row3">
+   <div class="stat"><small>Ganancia neta</small><strong id="netPnl">$0.00</strong></div>
+   <div class="stat"><small>Operaciones</small><strong id="tradeCount">0</strong></div>
+   <div class="stat"><small>Win rate</small><strong id="winRate">0%</strong></div>
+  </div>
+  <p class="hint">Capital virtual. No se utilizan fondos reales.</p>
+  <button class="btn secondary" id="resetDemo">Reiniciar demo a $10,000</button>
+ </div>
+ <div class="card">
+  <div class="item-head"><h2>Gráfico interactivo</h2><span class="pill" id="livePrice">CARGANDO</span></div>
+  <div class="chart-tools">
+   <div><label class="label">Activo</label>
+    <select class="field" id="asset">
+     <option value="BTCUSDT">BTC / USDT</option><option value="ETHUSDT">ETH / USDT</option>
+     <option value="BNBUSDT">BNB / USDT</option><option value="SOLUSDT">SOL / USDT</option>
+     <option value="XRPUSDT">XRP / USDT</option><option value="DOGEUSDT">DOGE / USDT</option>
+    </select>
+   </div>
+   <div><label class="label">Temporalidad</label>
+    <select class="field" id="demoInterval"><option value="1m">1 minuto</option><option value="5m">5 minutos</option><option value="15m">15 minutos</option><option value="1h" selected>1 hora</option><option value="4h">4 horas</option><option value="1d">1 día</option></select>
+   </div>
+  </div>
+  <div class="chart-legend">
+   <span><i class="legend-dot" style="background:#f3ba2f"></i>Entrada</span>
+   <span><i class="legend-dot" style="background:#f6465d"></i>Stop Loss</span>
+   <span><i class="legend-dot" style="background:#0ecb81"></i>Take Profit</span>
+  </div>
+  <div class="chart-box" id="demoChart"></div>
+  <p class="hint">Arrastra las líneas horizontales para modificar entrada, SL y TP. También puedes escribir los precios manualmente.</p>
+ </div>
+ <div class="card">
+  <h2>Nueva operación</h2>
+  <p class="muted">Configura tu entrada y gestión de riesgo.</p>
+  <div class="row">
+   <div><label class="label">Riesgo</label><select class="field" id="risk"><option value=".5">0.5%</option><option value="1">1%</option><option value="2">2%</option></select></div>
+   <div><label class="label">Precio de entrada</label><input class="field" id="entry" type="number" min="0" step="any"></div>
+  </div>
+  <div class="row">
+   <div><label class="label">Stop Loss</label><input class="field" id="stop" type="number" min="0" step="any"></div>
+   <div><label class="label">Take Profit</label><input class="field" id="target" type="number" min="0" step="any"></div>
+  </div>
+  <div class="row" style="margin-top:10px">
+   <div class="stat"><small>Riesgo en USDT</small><strong id="riskCash">$50.00</strong></div>
+   <div class="stat"><small>Tamaño posición</small><strong id="positionSize">—</strong></div>
+  </div>
+  <div class="row" style="margin-top:8px">
+   <div class="stat"><small>Ganancia estimada</small><strong class="green-text" id="potentialWin">—</strong></div>
+   <div class="stat"><small>Pérdida estimada</small><strong class="red-text" id="potentialLoss">—</strong></div>
+  </div>
+  <div class="hint" id="rrInfo" style="margin-top:9px">Relación riesgo/beneficio: —</div>
+  <div class="actions"><button class="trade-btn buy" id="longBtn">COMPRAR · LONG</button><button class="trade-btn sell" id="shortBtn">VENDER · SHORT</button></div>
+  <div class="status" id="demoStatus">Conectando al mercado...</div>
+  <div class="notice">Simulación educativa. Las compras y ventas de esta sección no envían órdenes reales.</div>
+ </div>
+ <div class="card"><div class="item-head"><h2>Operaciones abiertas</h2><span class="pill" id="openCount">0 abiertas</span></div><div id="openTrades" class="empty">No tienes operaciones abiertas.</div></div>
 </section>
 
 <section class="view" id="chart">
-<div class="card">
-<div class="item-head"><h2>Gráfico profesional</h2><span class="pill">TRADINGVIEW</span></div>
-<p class="muted">Análisis de mercado con velas japonesas e indicadores.</p>
-<div class="chart-tools">
-<div>
-<label class="label">Par de mercado</label>
-<select class="field" id="chartSymbol">
-<option value="BINANCE:BTCUSDT">BTC / USDT</option>
-<option value="BINANCE:ETHUSDT">ETH / USDT</option>
-<option value="BINANCE:BNBUSDT">BNB / USDT</option>
-<option value="BINANCE:SOLUSDT">SOL / USDT</option>
-<option value="BINANCE:XRPUSDT">XRP / USDT</option>
-<option value="BINANCE:DOGEUSDT">DOGE / USDT</option>
-</select>
-</div>
-<div>
-<label class="label">Temporalidad</label>
-<select class="field" id="chartInterval">
-<option value="1">1 minuto</option>
-<option value="5">5 minutos</option>
-<option value="15">15 minutos</option>
-<option value="30">30 minutos</option>
-<option value="60" selected>1 hora</option>
-<option value="240">4 horas</option>
-<option value="D">1 día</option>
-<option value="W">1 semana</option>
-</select>
-</div>
-</div>
-<button class="btn secondary" id="loadChart">Actualizar gráfico</button>
-<div class="chart-wrap" style="margin-top:13px">
-<div id="tradingview_chart" style="width:100%;height:100%"></div>
-</div>
-<div class="notice">Gráfico proporcionado por TradingView. Los datos, herramientas e indicadores dependen de la disponibilidad del proveedor.</div>
-</div>
+ <div class="card">
+  <h2>Gráfico de mercado</h2><p class="muted">Datos de mercado y velas en tiempo real.</p>
+  <div class="chart-tools">
+   <div><label class="label">Par</label><select class="field" id="chartSymbol"><option>BTCUSDT</option><option>ETHUSDT</option><option>BNBUSDT</option><option>SOLUSDT</option><option>XRPUSDT</option><option>DOGEUSDT</option></select></div>
+   <div><label class="label">Temporalidad</label><select class="field" id="chartInterval"><option value="1m">1 minuto</option><option value="5m">5 minutos</option><option value="15m">15 minutos</option><option value="1h" selected>1 hora</option><option value="4h">4 horas</option><option value="1d">1 día</option></select></div>
+  </div>
+  <button class="btn secondary" id="loadChart">Actualizar gráfico</button>
+  <div class="chart-box" id="mainChart" style="margin-top:12px"></div>
+  <div class="status" id="chartStatus">Esperando datos...</div>
+ </div>
 </section>
 
 <section class="view" id="swap">
-<div class="card">
-<div class="item-head"><h2>Swap BEP-20</h2><span class="pill">BNB SMART CHAIN</span></div>
-<p class="muted">Intercambio mediante PancakeSwap V2.</p>
-<label class="label">Pagar</label>
-<div class="row">
-<input class="field" id="swapAmount" type="number" min="0" step="any" placeholder="0.0">
-<select class="field" id="swapFrom">
-<option value="BNB">BNB</option>
-<option value="0x55d398326f99059fF775485246999027B3197955">USDT</option>
-<option value="0x2170Ed0880ac9A755fd29B2688956BD959F933F8">ETH</option>
-<option value="0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82">CAKE</option>
-<option value="0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c">BTCB</option>
-<option value="0xbA2aE424d960c26247Dd6c32edC70B295c744C43">DOGE</option>
-</select>
-</div>
-<div style="text-align:center;margin:8px"><button class="small-btn" id="reverseSwap">⇅ Invertir</button></div>
-<label class="label">Recibir aproximadamente</label>
-<div class="row">
-<input class="field" id="swapOutput" readonly placeholder="—">
-<select class="field" id="swapTo">
-<option value="0x55d398326f99059fF775485246999027B3197955">USDT</option>
-<option value="BNB">BNB</option>
-<option value="0x2170Ed0880ac9A755fd29B2688956BD959F933F8">ETH</option>
-<option value="0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82">CAKE</option>
-<option value="0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c">BTCB</option>
-<option value="0xbA2aE424d960c26247Dd6c32edC70B295c744C43">DOGE</option>
-</select>
-</div>
-<div class="row">
-<div><label class="label">Slippage máximo</label><select class="field" id="slippage"><option value="0.5">0.5%</option><option value="1" selected>1%</option><option value="2">2%</option></select></div>
-<div><label class="label">Wallet</label><div class="field" id="walletShort" style="font-size:12px">No conectada</div></div>
-</div>
-<button class="btn secondary" id="quoteBtn">Obtener cotización</button>
-<button class="btn" id="swapBtn" disabled>Confirmar intercambio</button>
-<div class="status" id="swapStatus">Conecta una wallet compatible.</div>
-<div class="notice">El Swap utiliza fondos reales. Comprueba contratos, red, cantidades y slippage. Necesitas BNB para gas. Nunca compartas tu frase semilla. Módulo experimental: no uses fondos importantes sin probarlo y verificar los contratos.</div>
-</div>
+ <div class="card">
+  <div class="item-head"><h2>Swap BEP-20</h2><span class="pill">BNB SMART CHAIN</span></div>
+  <p class="muted">Intercambio Spot a través de PancakeSwap V2.</p>
+  <div class="row">
+   <div class="stat"><small>Wallet</small><strong id="walletShort">No conectada</strong></div>
+   <div class="stat"><small>Red</small><strong id="walletNetwork">No conectada</strong></div>
+  </div>
+  <div class="row" style="margin-top:8px">
+   <div class="stat"><small>Saldo BNB</small><strong id="bnbBalance">—</strong></div>
+   <div class="stat"><small>Saldo USDT</small><strong id="usdtBalance">—</strong></div>
+  </div>
+  <label class="label">Pagar</label>
+  <div class="row"><input class="field" id="swapAmount" type="number" min="0" step="any" placeholder="0.0">
+   <select class="field" id="swapFrom"><option value="BNB">BNB</option><option value="0x55d398326f99059fF775485246999027B3197955">USDT</option><option value="0x2170Ed0880ac9A755fd29B2688956BD959F933F8">ETH</option><option value="0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82">CAKE</option><option value="0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c">BTCB</option><option value="0xbA2aE424d960c26247Dd6c32edC70B295c744C43">DOGE</option></select>
+  </div>
+  <div style="text-align:center;margin:8px"><button class="small-btn" id="reverseSwap">⇅ Invertir</button></div>
+  <label class="label">Recibir aproximadamente</label>
+  <div class="row"><input class="field" id="swapOutput" readonly placeholder="—">
+   <select class="field" id="swapTo"><option value="0x55d398326f99059fF775485246999027B3197955">USDT</option><option value="BNB">BNB</option><option value="0x2170Ed0880ac9A755fd29B2688956BD959F933F8">ETH</option><option value="0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82">CAKE</option><option value="0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c">BTCB</option><option value="0xbA2aE424d960c26247Dd6c32edC70B295c744C43">DOGE</option></select>
+  </div>
+  <div class="row">
+   <div><label class="label">Slippage máximo</label><select class="field" id="slippage"><option value=".5">0.5%</option><option value="1" selected>1%</option><option value="2">2%</option></select></div>
+   <div><label class="label">Comisión de red</label><div class="field">BNB gas</div></div>
+  </div>
+  <button class="btn secondary" id="quoteBtn">Obtener cotización</button>
+  <button class="btn" id="swapBtn" disabled>Confirmar intercambio real</button>
+  <div class="status" id="swapStatus">Conecta tu wallet para comenzar.</div>
+  <div class="notice">El Swap utiliza fondos reales. Comprueba siempre el contrato del token, la red, el importe, el precio mínimo recibido y el gas. Las aprobaciones permiten al contrato gastar tokens. No compartas tu frase semilla ni claves privadas.</div>
+ </div>
+ <div class="card">
+  <h2>Gráfico del mercado Swap</h2>
+  <div class="chart-tools">
+   <div><label class="label">Activo</label><select class="field" id="swapChartSymbol"><option>BNBUSDT</option><option>BTCUSDT</option><option>ETHUSDT</option><option>CAKEUSDT</option><option>DOGEUSDT</option></select></div>
+   <div><label class="label">Temporalidad</label><select class="field" id="swapChartInterval"><option value="1m">1 minuto</option><option value="5m">5 minutos</option><option value="15m">15 minutos</option><option value="1h" selected>1 hora</option><option value="4h">4 horas</option><option value="1d">1 día</option></select></div>
+  </div>
+  <div class="chart-box" id="swapChart" style="margin-top:12px"></div>
+  <div class="status" id="swapChartStatus">Gráfico de mercado.</div>
+ </div>
 </section>
 
 <section class="view" id="history">
-<div class="card">
-<div class="item-head"><h2>Historial demo</h2><button class="small-btn" id="clearHistory">Borrar historial</button></div>
-<div id="historyList" class="empty">Todavía no hay operaciones cerradas.</div>
-</div>
+ <div class="card"><div class="item-head"><h2>Historial demo</h2><button class="small-btn" id="clearHistory">Borrar historial</button></div><div id="historyList" class="empty">Todavía no hay operaciones cerradas.</div></div>
 </section>
 </main>
-
-<div class="footer">eRRe Coin · Trading Terminal · Experimental</div>
+<div class="status">eRRe Coin · Trading Terminal · Experimental</div>
 
 <script>
 'use strict';
 const $=id=>document.getElementById(id);
-const STORAGE_KEY='errecoin_demo_v4';
+const API='https://data-api.binance.vision/api/v3';
 const ROUTER='0x10ED43C718714eb63d5aA57B78B54704E256024E';
-const WBNB='0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c';
-const RPC='https://bsc-dataseed.bnbchain.org';
+const WBNB='0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc0955';
+const USDT='0x55d398326f99059fF775485246999027B3197955';
 const routerAbi=[
-'function getAmountsOut(uint amountIn,address[] calldata path) external view returns(uint[] memory amounts)',
-'function swapExactETHForTokens(uint amountOutMin,address[] calldata path,address to,uint deadline) external payable returns(uint[] memory amounts)',
-'function swapExactTokensForETH(uint amountIn,uint amountOutMin,address[] calldata path,address to,uint deadline) external returns(uint[] memory amounts)',
-'function swapExactTokensForTokens(uint amountIn,uint amountOutMin,address[] calldata path,address to,uint deadline) external returns(uint[] memory amounts)'
+'function getAmountsOut(uint amountIn,address[] path) view returns(uint[] amounts)',
+'function swapExactETHForTokens(uint amountOutMin,address[] path,address to,uint deadline) payable returns(uint[] amounts)',
+'function swapExactTokensForETH(uint amountIn,uint amountOutMin,address[] path,address to,uint deadline) returns(uint[] amounts)',
+'function swapExactTokensForTokens(uint amountIn,uint amountOutMin,address[] path,address to,uint deadline) returns(uint[] amounts)'
 ];
-const erc20Abi=[
+const ercAbi=[
 'function decimals() view returns(uint8)',
-'function allowance(address owner,address spender) view returns(uint256)',
-'function approve(address spender,uint256 amount) returns(bool)'
+'function allowance(address,address) view returns(uint256)',
+'function approve(address,uint256) returns(bool)',
+'function balanceOf(address) view returns(uint256)'
 ];
-const tokenDecimals={};
-let readProvider,walletProvider,signer,walletAddress,lastQuote=null,marketPrice=null;
-let chartLoaded=false;
-
-function loadState(){
+const KEY='errecoin_demo_v5';
+let state=readState(),prices={},walletProvider=null,signer=null,walletAddress=null,readProvider=null,lastQuote=null;
+let demoChart=null,mainChart=null,swapChart=null;
+let demoSeries=null,mainSeries=null,swapSeries=null;
+let demoLines={},dragLine=null,dragging=false;
+let ws=null,wsSymbol='',wsInterval='';
+function readState(){try{let s=JSON.parse(localStorage.getItem(KEY));if(s&&Array.isArray(s.open)&&Array.isArray(s.closed)&&Number.isFinite(s.balance))return s}catch(e){}return{balance:10000,initial:10000,open:[],closed:[]}}
+function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+function money(n){return Number(n).toLocaleString('en-US',{style:'currency',currency:'USD',maximumFractionDigits:2})}
+function fmt(n,d=6){return Number(n).toLocaleString('en-US',{maximumFractionDigits:d})}
+function status(id,msg,color){$(id).textContent=msg;$(id).style.color=color||'var(--muted)'}
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function currentAsset(){return $('asset').value}
+function activePrice(){return prices[currentAsset()]||0}
+function riskCash(){return state.balance*Number($('risk').value)/100}
+function initChart(id){const el=$(id);if(!window.LightweightCharts){el.textContent='No se pudo cargar el gráfico.';return null}
+const chart=LightweightCharts.createChart(el,{width:el.clientWidth,height:el.clientHeight,layout:{background:{color:'#10151c'},textColor:'#c5ced8'},grid:{vertLines:{color:'#202630'},horzLines:{color:'#202630'}},rightPriceScale:{borderColor:'#303945'},timeScale:{borderColor:'#303945',timeVisible:true},crosshair:{mode:0}});
+const series=chart.addCandlestickSeries({upColor:'#0ecb81',downColor:'#f6465d',borderUpColor:'#0ecb81',borderDownColor:'#f6465d',wickUpColor:'#0ecb81',wickDownColor:'#f6465d'});
+new ResizeObserver(()=>chart.applyOptions({width:el.clientWidth,height:el.clientHeight})).observe(el);
+return{chart,series,el}}
+async function loadCandles(symbol,interval,series,statusId){
 try{
-const s=JSON.parse(localStorage.getItem(STORAGE_KEY));
-if(s&&Number.isFinite(s.balance)&&Array.isArray(s.open)&&Array.isArray(s.closed))return s;
-}catch(e){}
-return {balance:10000,initial:10000,open:[],closed:[]};
-}
-let state=loadState();
-function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}
-function money(n){return Number(n).toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2})}
-function num(n,d=6){return Number(n).toLocaleString('en-US',{maximumFractionDigits:d})}
-function setStatus(id,msg,color){$(id).textContent=msg;$(id).style.color=color||'var(--muted)'}
-function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-
-/* NAVEGACIÓN */
-document.querySelectorAll('.tab').forEach(btn=>{
-btn.addEventListener('click',()=>{
-document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b===btn));
-document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===btn.dataset.view));
-if(btn.dataset.view==='history')renderHistory();
-if(btn.dataset.view==='swap')updateWalletLabel();
-if(btn.dataset.view==='chart'&&!chartLoaded)loadTradingView();
-});
-});
-
-/* TEMA */
-$('themeBtn').addEventListener('click',()=>document.body.classList.toggle('light'));
-
-/* TRADINGVIEW */
-function loadTradingView(){
-const symbol=$('chartSymbol').value;
-const interval=$('chartInterval').value;
-const container=$('tradingview_chart');
-container.innerHTML='';
-const script=document.createElement('script');
-script.src='https://s3.tradingview.com/tv.js';
-script.onload=()=>{
-if(!window.TradingView){container.textContent='No se pudo cargar TradingView.';return}
-container.innerHTML='';
-new TradingView.widget({
-autosize:true,
-symbol:symbol,
-interval:interval,
-timezone:'Etc/UTC',
-theme:'dark',
-style:'1',
-locale:'es',
-enable_publishing:false,
-allow_symbol_change:true,
-hide_side_toolbar:false,
-withdateranges:true,
-details:true,
-hotlist:false,
-calendar:false,
-support_host:'https://www.tradingview.com',
-container_id:'tradingview_chart'
-});
-chartLoaded=true;
+const products={
+BTCUSDT:"BTC-USD",ETHUSDT:"ETH-USD",
+BNBUSDT:"BNB-USD",SOLUSDT:"SOL-USD",
+XRPUSDT:"XRP-USD",ADAUSDT:"ADA-USD",
+DOGEUSDT:"DOGE-USD"
 };
-script.onerror=()=>{container.textContent='Error cargando TradingView. Comprueba tu conexión.'};
-document.head.appendChild(script);
-}
-$('loadChart').addEventListener('click',loadTradingView);
-$('chartSymbol').addEventListener('change',()=>{if(chartLoaded)loadTradingView()});
-$('chartInterval').addEventListener('change',()=>{if(chartLoaded)loadTradingView()});
-
-/* TRADING DEMO */
-$('risk').addEventListener('change',updateRiskPreview);
-['entry','stop','target'].forEach(id=>$(id).addEventListener('input',updateRiskPreview));
-$('asset').addEventListener('change',()=>{$('entry').value='';fetchMarketPrice()});
-$('longBtn').addEventListener('click',()=>openDemoTrade('LONG'));
-$('shortBtn').addEventListener('click',()=>openDemoTrade('SHORT'));
-
-$('resetDemo').addEventListener('click',()=>{
-if(!confirm('¿Reiniciar todo a $10,000 virtuales?'))return;
-state={balance:10000,initial:10000,open:[],closed:[]};
-saveState();renderAll();
-});
-
-$('clearHistory').addEventListener('click',()=>{
-if(!confirm('¿Borrar el historial cerrado?'))return;
-state.closed=[];saveState();renderHistory();renderStats();
-});
-
-function riskAmount(){return state.balance*Number($('risk').value)/100}
-function updateRiskPreview(){
-const risk=riskAmount(),entry=Number($('entry').value),sl=Number($('stop').value),tp=Number($('target').value);
-$('riskCash').textContent=money(risk);
-if(entry>0&&sl>0&&entry!==sl){
-const qty=risk/Math.abs(entry-sl),notional=qty*entry;
-$('positionSize').textContent=num(qty,8)+' unidades';
-$('potentialLoss').textContent='-'+money(risk);
-if(tp>0){
-const reward=Math.abs(tp-entry)*qty;
-$('potentialWin').textContent='+'+money(reward);
-$('rrInfo').textContent='Relación riesgo/beneficio: '+(reward/risk).toFixed(2)+'R · Valor nominal: '+money(notional);
-}else{$('potentialWin').textContent='—';$('rrInfo').textContent='Valor nominal: '+money(notional)}
-}else{
-$('positionSize').textContent='—';$('potentialWin').textContent='—';$('potentialLoss').textContent='—';$('rrInfo').textContent='Introduce entrada y Stop Loss.';
-}
-}
-
-async function fetchMarketPrice(){
-const symbol=$('asset').value;
-setStatus('demoStatus','Actualizando precio de '+symbol+'...');
-try{
-const response=await fetch('https://api.binance.com/api/v3/ticker/price?symbol='+encodeURIComponent(symbol),{cache:'no-store'});
-if(!response.ok)throw new Error('Error de mercado');
-const data=await response.json(),price=Number(data.price);
-if(!(price>0))throw new Error('Precio inválido');
-marketPrice=price;
-$('entry').placeholder='Mercado: '+num(price,8);
-if(!$('entry').value)$('entry').value=String(price);
-setStatus('demoStatus',symbol+' · Precio: '+num(price,8)+' USDT','var(--green)');
-updateRiskPreview();
-}catch(e){
-setStatus('demoStatus','No se pudo consultar el precio. Puedes introducirlo manualmente.','var(--red)');
-}
-}
-
-function openDemoTrade(side){
-const asset=$('asset').value,entry=Number($('entry').value),sl=Number($('stop').value),tp=Number($('target').value),riskPct=Number($('risk').value),risk=riskAmount();
-if(!(entry>0&&sl>0&&tp>0)){alert('Introduce entrada, Stop Loss y Take Profit.');return}
-if(side==='LONG'&&!(sl<entry&&tp>entry)){alert('En LONG, SL debajo de entrada y TP encima.');return}
-if(side==='SHORT'&&!(sl>entry&&tp<entry)){alert('En SHORT, SL encima de entrada y TP debajo.');return}
-const qty=risk/Math.abs(entry-sl),notional=qty*entry;
-if(!Number.isFinite(qty)||qty<=0||notional>state.balance){alert('El tamaño de posición supera el balance disponible.');return}
-const trade={id:Date.now()+Math.random(),asset,side,entry,sl,tp,riskPct,risk,qty,notional,openedAt:new Date().toISOString(),lastPrice:marketPrice||entry};
-state.open.unshift(trade);saveState();renderAll();
-setStatus('demoStatus',side+' abierto en demo. Riesgo: '+money(risk),'var(--green)');
-}
-
-function calcPnl(t,price){return(t.side==='LONG'?price-t.entry:t.entry-price)*t.qty}
-
-async function closeTrade(id,manual=true){
-const t=state.open.find(x=>x.id===id);if(!t)return;
-let price;
-if(manual){
-const raw=prompt('Introduce el precio de cierre de '+t.asset,String(t.lastPrice||t.entry));
-if(raw===null)return;price=Number(raw);
-}else price=Number(t.lastPrice||t.entry);
-if(!(price>0)){alert('Precio de cierre inválido.');return}
-const pnl=calcPnl(t,price);
-state.balance+=pnl;
-state.open=state.open.filter(x=>x.id!==id);
-state.closed.unshift({...t,exit:price,pnl,closedAt:new Date().toISOString()});
-saveState();renderAll();
-}
-window.closeTrade=closeTrade;
-
-function renderStats(){
-$('balance').textContent=money(state.balance);
-const net=state.balance-state.initial;
-$('netPnl').textContent=(net>=0?'+':'')+money(net);
-$('netPnl').className=net>=0?'green-text':'red-text';
-$('tradeCount').textContent=String(state.closed.length+state.open.length);
-const wins=state.closed.filter(t=>t.pnl>0).length;
-$('winRate').textContent=state.closed.length?Math.round(wins/state.closed.length*100)+'%':'0%';
-$('openCount').textContent=state.open.length+' abiertas';
-}
-
-function renderOpen(){
-const el=$('openTrades');
-if(!state.open.length){el.className='empty';el.textContent='No tienes operaciones abiertas.';return}
-el.className='';
-el.innerHTML=state.open.map(t=>{
-const p=Number(t.lastPrice||t.entry),pnl=calcPnl(t,p);
-const pct=t.notional>0?pnl/t.notional*100:0;
-return `<div class="list-item">
-<div class="item-head"><strong>${escapeHtml(t.asset)} · <span class="${t.side==='LONG'?'green-text':'red-text'}">${t.side}</span></strong><span class="pill">Riesgo ${t.riskPct}%</span></div>
-<div class="row"><div class="hint">Entrada: <b>${num(t.entry,8)}</b><br>Actual: <b>${num(p,8)}</b></div><div class="hint">SL: <b>${num(t.sl,8)}</b><br>TP: <b>${num(t.tp,8)}</b></div></div>
-<div class="item-head" style="margin-top:8px"><span class="hint">P/L estimado</span><strong class="${pnl>=0?'green-text':'red-text'}">${pnl>=0?'+':''}${money(pnl)} (${pct.toFixed(2)}%)</strong></div>
-<button class="btn secondary" style="margin-top:5px" onclick="closeTrade(${Number(t.id)},true)">Cerrar operación</button>
-</div>`;
-}).join('');
-}
-
-function renderHistory(){
-const el=$('historyList');
-if(!state.closed.length){el.className='empty';el.textContent='Todavía no hay operaciones cerradas.';return}
-el.className='';
-el.innerHTML=state.closed.map(t=>{
-const pct=t.notional>0?t.pnl/t.notional*100:0;
-return `<div class="list-item">
-<div class="item-head"><strong>${escapeHtml(t.asset)} · ${escapeHtml(t.side)}</strong><strong class="${t.pnl>=0?'green-text':'red-text'}">${t.pnl>=0?'+':''}${money(t.pnl)}</strong></div>
-<div class="hint">Entrada: ${num(t.entry,8)} · Salida: ${num(t.exit,8)}<br>Riesgo: ${t.riskPct}% (${money(t.risk)})<br>Resultado sobre posición: ${pct.toFixed(2)}%<br>${escapeHtml(new Date(t.closedAt).toLocaleString())}${t.closeReason?' · '+escapeHtml(t.closeReason):''}</div>
-</div>`;
-}).join('');
-}
-function renderAll(){renderStats();renderOpen();renderHistory();updateRiskPreview()}
-
-/* ACTUALIZACIÓN DE PRECIOS Y CIERRES DEMO */
-async function refreshOpenPnl(){
-if(!state.open.length)return;
-const symbols=[...new Set(state.open.map(t=>t.asset))],prices={};
-await Promise.all(symbols.map(async symbol=>{
-try{
-const r=await fetch('https://api.binance.com/api/v3/ticker/price?symbol='+encodeURIComponent(symbol),{cache:'no-store'});
-if(r.ok){const d=await r.json();prices[symbol]=Number(d.price)}
-}catch(e){}
+const product=products[symbol]||"BTC-USD";
+const granularity={"1m":60,"5m":300,"15m":900,"1h":3600,"4h":21600,"1d":86400}[interval]||3600;
+const url="https://api.exchange.coinbase.com/products/"+product+"/candles?granularity="+granularity;
+const response=await fetch(url,{headers:{"Accept":"application/json"}});
+if(!response.ok)throw Error("Coinbase HTTP "+response.status);
+const data=await response.json();
+if(!Array.isArray(data)||!data.length)throw Error("No llegaron velas");
+const candles=data.slice().reverse().map(k=>({
+time:Number(k[0]),open:Number(k[3]),high:Number(k[2]),
+low:Number(k[1]),close:Number(k[4])
 }));
-const stillOpen=[];
-for(const t of state.open){
-if(prices[t.asset]>0)t.lastPrice=prices[t.asset];
-const price=Number(t.lastPrice||t.entry);
-const hitStop=t.side==='LONG'?price<=t.sl:price>=t.sl;
-const hitTarget=t.side==='LONG'?price>=t.tp:price<=t.tp;
-if(hitStop||hitTarget){
-const exit=hitStop?t.sl:t.tp,pnl=calcPnl(t,exit);
-state.balance+=pnl;
-state.closed.unshift({...t,exit,pnl,closedAt:new Date().toISOString(),closeReason:hitStop?'Stop Loss':'Take Profit'});
-}else stillOpen.push(t);
-}
-state.open=stillOpen;saveState();renderStats();renderOpen();renderHistory();
-}
-
-/* SWAP */
-function updateWalletLabel(){
-$('walletShort').textContent=walletAddress?walletAddress.slice(0,8)+'...'+walletAddress.slice(-6):'No conectada';
-}
-async function connectWallet(){
+series.setData(candles);
+status(statusId,product+" · Coinbase conectado","var(--green)");
+return candles;
+}catch(error){
+console.error("Error gráfico:",error);
+status(statusId,"Error gráfico: "+error.message,"var(--red)");
+return [];
+}}
+async function refreshAllCharts(){
 try{
-if(!window.ethereum)throw new Error('Abre la página en un navegador compatible con wallet.');
-walletProvider=new ethers.providers.Web3Provider(window.ethereum,'any');
-await walletProvider.send('eth_requestAccounts',[]);
-signer=walletProvider.getSigner();walletAddress=await signer.getAddress();
-let network=await walletProvider.getNetwork();
-if(network.chainId!==56){
-await window.ethereum.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x38'}]});
-network=await walletProvider.getNetwork();
-if(network.chainId!==56)throw new Error('Cambia a BNB Smart Chain.');
+if(demoSeries)await loadCandles(currentAsset(),$('demoInterval').value,demoSeries,'demoStatus');
+if(mainSeries)await loadCandles($('chartSymbol').value,$('chartInterval').value,mainSeries,'chartStatus');
+if(swapSeries)await loadCandles($('swapChartSymbol').value,$('swapChartInterval').value,swapSeries,'swapChartStatus');
+}catch(e){console.error('Actualización de gráficos:',e)}
 }
-$('walletBtn').textContent=walletAddress.slice(0,5)+'...'+walletAddress.slice(-4);
-updateWalletLabel();setStatus('swapStatus','Wallet conectada a BNB Smart Chain.','var(--green)');
-}catch(e){setStatus('swapStatus',e.message||'Error al conectar.','var(--red)')}
-}
-$('walletBtn').addEventListener('click',connectWallet);
+setInterval(refreshAllCharts,10000);
 
-function tokenAddress(token){return token==='BNB'?WBNB:token}
-async function decimalsFor(token){
-if(token==='BNB')return 18;
-if(tokenDecimals[token]!==undefined)return tokenDecimals[token];
-const contract=new ethers.Contract(token,erc20Abi,readProvider);
-const decimals=Number(await contract.decimals());
-if(!Number.isInteger(decimals)||decimals<0||decimals>36)throw new Error('Decimales de token inválidos.');
-tokenDecimals[token]=decimals;return decimals;
+function coinbaseProduct(symbol){
+const map={
+BTCUSDT:"BTC-USD",ETHUSDT:"ETH-USD",BNBUSDT:"BNB-USD",
+SOLUSDT:"SOL-USD",XRPUSDT:"XRP-USD",ADAUSDT:"ADA-USD",
+DOGEUSDT:"DOGE-USD"
+};
+if(!map[symbol])throw Error("Activo no disponible en Coinbase: "+symbol);
+return map[symbol];
 }
-function clearQuote(){lastQuote=null;$('swapOutput').value='';$('swapBtn').disabled=true}
-['swapAmount','swapFrom','swapTo','slippage'].forEach(id=>{
-$(id).addEventListener('input',clearQuote);
-$(id).addEventListener('change',clearQuote);
+async function getPrice(symbol){
+const product=coinbaseProduct(symbol);
+const r=await fetch("https://api.exchange.coinbase.com/products/"+product+"/ticker",{headers:{"Accept":"application/json"},cache:"no-store"});
+if(!r.ok)throw Error("Precio Coinbase no disponible");
+const d=await r.json();
+return Number(d.price);
+}
+function addLine(name,price,color,title){if(!demoSeries)return;if(demoLines[name])demoSeries.removePriceLine(demoLines[name]);demoLines[name]=demoSeries.createPriceLine({price,color,lineWidth:2,lineStyle:2,axisLabelVisible:true,title})}
+function updateLines(){const e=Number($('entry').value),s=Number($('stop').value),t=Number($('target').value);if(e>0)addLine('entry',e,'#f3ba2f','ENTRADA');if(s>0)addLine('stop',s,'#f6465d','SL');if(t>0)addLine('target',t,'#0ecb81','TP');updateRisk()}
+function updateRisk(){const risk=riskCash(),e=Number($('entry').value),s=Number($('stop').value),t=Number($('target').value);$('riskCash').textContent=money(risk);if(e>0&&s>0&&e!==s){const q=risk/Math.abs(e-s),win=t>0?Math.abs(t-e)*q:0;$('positionSize').textContent=fmt(q,8);$('potentialLoss').textContent='-'+money(risk);$('potentialWin').textContent=t>0?'+'+money(win):'—';$('rrInfo').textContent=t>0?'Relación riesgo/beneficio: '+(win/risk).toFixed(2)+'R':'Introduce el TP para calcular el ratio.'}else{$('positionSize').textContent='—';$('potentialWin').textContent='—';$('potentialLoss').textContent='—';$('rrInfo').textContent='Introduce entrada y Stop Loss.'}}
+function setupDragging(){
+const el=$('demoChart');
+el.style.touchAction='none';
+
+function finishDrag(){
+dragging=false;
+dragLine=null;
+}
+
+el.addEventListener('pointerdown',e=>{
+if(!demoChart||!demoSeries)return;
+const rect=el.getBoundingClientRect();
+const y=e.clientY-rect.top;
+let best=null;
+let dist=28;
+
+for(const [name,id] of [['entry','entry'],['stop','stop'],['target','target']]){
+const price=Number($(id).value);
+if(!(price>0))continue;
+const py=demoSeries.priceToCoordinate(price);
+if(py!==null&&Number.isFinite(py)&&Math.abs(py-y)<dist){
+dist=Math.abs(py-y);
+best=name;
+}
+}
+
+if(best){
+e.preventDefault();
+dragLine=best;
+dragging=true;
+el.setPointerCapture(e.pointerId);
+}
 });
-$('reverseSwap').addEventListener('click',()=>{
-const a=$('swapFrom').value;
-$('swapFrom').value=$('swapTo').value;
-$('swapTo').value=a;
-clearQuote();
+
+el.addEventListener('pointermove',e=>{
+if(!dragging||!dragLine||!demoSeries)return;
+const rect=el.getBoundingClientRect();
+const price=demoSeries.coordinateToPrice(e.clientY-rect.top);
+
+if(price!==null&&Number.isFinite(price)&&price>0){
+$(dragLine).value=Number(price).toPrecision(10);
+updateLines();
+}
 });
-$('quoteBtn').addEventListener('click',getSwapQuote);
-$('swapBtn').addEventListener('click',executeSwap);
 
-async function getSwapQuote(){
+el.addEventListener('pointerup',finishDrag);
+el.addEventListener('pointercancel',finishDrag);
+el.addEventListener('lostpointercapture',finishDrag);
+}
+async function loadDemoChart(){if(!demoChart){demoChart=initChart('demoChart');if(!demoChart)return;demoSeries=demoChart.series;setupDragging()}await loadCandles(currentAsset(),$('demoInterval').value,demoSeries,'demoStatus');updateLines()}
+async function loadMainChart(){if(!mainChart){mainChart=initChart('mainChart');if(!mainChart)return;mainSeries=mainChart.series}await loadCandles($('chartSymbol').value,$('chartInterval').value,mainSeries,'chartStatus')}
+async function loadSwapChart(){if(!swapChart){swapChart=initChart('swapChart');if(!swapChart)return;swapSeries=swapChart.series}await loadCandles($('swapChartSymbol').value,$('swapChartInterval').value,swapSeries,'swapChartStatus')}
+function subscribePrice(symbol){
+if(ws){ws.close();ws=null}
+wsSymbol=symbol;
 try{
-if(!readProvider)readProvider=new ethers.providers.JsonRpcProvider(RPC);
-const amount=String($('swapAmount').value),from=$('swapFrom').value,to=$('swapTo').value;
-if(!(Number(amount)>0))throw new Error('Introduce una cantidad válida.');
-if(from===to)throw new Error('Selecciona dos tokens diferentes.');
-setStatus('swapStatus','Consultando cotización...');
-$('swapBtn').disabled=true;
-const [dFrom,dTo]=await Promise.all([decimalsFor(from),decimalsFor(to)]);
-const amountIn=ethers.utils.parseUnits(amount,dFrom);
-const path=[tokenAddress(from),tokenAddress(to)];
-const router=new ethers.Contract(ROUTER,routerAbi,readProvider);
-const amounts=await router.getAmountsOut(amountIn,path);
-const output=ethers.utils.formatUnits(amounts[1],dTo);
-const slip=Number($('slippage').value);
-const minOut=amounts[1].mul(10000-Math.round(slip*100)).div(10000);
-lastQuote={from,to,dFrom,dTo,amountIn,amountOut:amounts[1],minOut,path,amount};
-$('swapOutput').value=Number(output).toLocaleString('en-US',{maximumFractionDigits:8});
-$('swapBtn').disabled=false;
-setStatus('swapStatus','Cotización obtenida. Slippage máximo '+slip+'%.','var(--green)');
-}catch(e){
-clearQuote();
-setStatus('swapStatus',e.reason||e.message||'No se pudo obtener la cotización.','var(--red)');
+const product=coinbaseProduct(symbol);
+ws=new WebSocket("wss://ws-feed.exchange.coinbase.com");
+ws.onopen=()=>{
+ws.send(JSON.stringify({
+type:"subscribe",
+product_ids:[product],
+channels:["ticker"]
+}));
+};
+ws.onmessage=e=>{
+const d=JSON.parse(e.data);
+if(d.type!=="ticker"||d.product_id!==product)return;
+const p=Number(d.price);
+if(!Number.isFinite(p)||p<=0)return;
+prices[symbol]=p;
+if(symbol===currentAsset()){
+$("livePrice").textContent=fmt(p,8)+" USD";
+if(!$("entry").dataset.manual){
+$("entry").value=p;
+updateLines();
 }
+}
+for(const t of [...state.open]){
+if(t.asset!==symbol)continue;
+t.lastPrice=p;
+const sl=t.side==="LONG"?p<=t.sl:p>=t.sl;
+const tp=t.side==="LONG"?p>=t.tp:p<=t.tp;
+if(sl)closeTrade(t.id,t.sl,"Stop Loss");
+else if(tp)closeTrade(t.id,t.tp,"Take Profit");
+}
+render();
+};
+ws.onerror=()=>status("demoStatus","Conexión en vivo interrumpida. Reintentando al cambiar de activo.","var(--red)");
+}catch(e){
+status("demoStatus",e.message,"var(--red)");
+}
+}
+async function refreshPrice(){try{const symbol=currentAsset(),p=await getPrice(symbol);prices[symbol]=p;$('livePrice').textContent=fmt(p,8)+' USDT';if(!$('entry').dataset.manual){$('entry').value=p;updateLines()}status('demoStatus',symbol+' · '+fmt(p,8)+' USDT','var(--green)')}catch(e){status('demoStatus','No se pudo consultar el precio. Comprueba tu conexión.','var(--red)')}}
+function pnl(t,p){return(t.side==='LONG'?p-t.entry:t.entry-p)*t.qty}
+function openTrade(side){
+const e=Number($('entry').value);
+const s=Number($('stop').value);
+const tp=Number($('target').value);
+const risk=riskCash();
+const asset=currentAsset();
+
+if(!(e>0&&s>0&&tp>0)){
+alert('Completa entrada, SL y TP.');
+return;
+}
+if(side==='LONG'&&!(s<e&&tp>e)){
+alert('En LONG, el SL debe estar debajo de entrada y TP encima.');
+return;
+}
+if(side==='SHORT'&&!(s>e&&tp<e)){
+alert('En SHORT, el SL debe estar encima de entrada y TP debajo.');
+return;
 }
 
-async function executeSwap(){
-try{
-if(!signer||!walletAddress)throw new Error('Conecta tu wallet primero.');
-if(!lastQuote)throw new Error('Obtén una cotización nueva.');
-const network=await walletProvider.getNetwork();
-if(network.chainId!==56)throw new Error('La wallet no está en BNB Smart Chain.');
-const q=lastQuote;
-if(!confirm('ATENCIÓN: transacción REAL. Revisa tokens, cantidades y comisiones. ¿Continuar?'))return;
-$('swapBtn').disabled=true;
-setStatus('swapStatus','Preparando transacción...');
-const router=new ethers.Contract(ROUTER,routerAbi,signer);
-const deadline=Math.floor(Date.now()/1000)+300;
-let tx;
-if(q.from==='BNB'){
-tx=await router.swapExactETHForTokens(q.minOut,q.path,walletAddress,deadline,{value:q.amountIn});
-}else{
-const token=new ethers.Contract(q.from,erc20Abi,signer);
-const allowance=await token.allowance(walletAddress,ROUTER);
-if(allowance.lt(q.amountIn)){
-setStatus('swapStatus','Solicitando aprobación del token...');
-const approval=await token.approve(ROUTER,q.amountIn);
-await approval.wait();
-}
-setStatus('swapStatus','Enviando intercambio...');
-if(q.to==='BNB'){
-tx=await router.swapExactTokensForETH(q.amountIn,q.minOut,q.path,walletAddress,deadline);
-}else{
-tx=await router.swapExactTokensForTokens(q.amountIn,q.minOut,q.path,walletAddress,deadline);
-}
-}
-setStatus('swapStatus','Transacción enviada: '+tx.hash);
-await tx.wait();
-setStatus('swapStatus','Intercambio confirmado: '+tx.hash,'var(--green)');
-clearQuote();
-}catch(e){
-setStatus('swapStatus',e.reason||e.message||'Transacción cancelada o fallida.','var(--red)');
-}finally{
-$('swapBtn').disabled=!lastQuote;
-}
+const qty=risk/Math.abs(e-s);
+const notional=qty*e;
+const committed=state.open.reduce((sum,t)=>sum+(Number(t.notional)||0),0);
+const available=state.balance-committed;
+
+if(!Number.isFinite(qty)||qty<=0||notional>available){
+alert('Saldo virtual disponible insuficiente. Capital comprometido: '+money(committed)+'. Disponible: '+money(Math.max(0,available))+'.');
+return;
 }
 
-/* INICIO */
-renderAll();
-fetchMarketPrice();
-setInterval(fetchMarketPrice,10000);
-setInterval(refreshOpenPnl,10000);
+state.open.unshift({
+id:Date.now()+Math.random(),
+asset,side,entry:e,sl:s,tp,risk,qty,notional,
+riskPct:Number($('risk').value),
+lastPrice:prices[asset]||e,
+openedAt:new Date().toISOString()
+});
+
+save();
+render();
+status('demoStatus',side+' abierto en demo. Saldo reservado: '+money(notional),'var(--green)');
+}
+function closeTrade(id,price,reason){const t=state.open.find(x=>x.id===id);if(!t)return;const exit=price||t.lastPrice||t.entry,profit=pnl(t,exit);state.balance+=profit;state.open=state.open.filter(x=>x.id!==id);state.closed.unshift({...t,exit,pnl:profit,closedAt:new Date().toISOString(),closeReason:reason||'Cierre manual'});save();render()}
+function render(){const net=state.balance-state.initial;$('balance').textContent=money(state.balance);$('netPnl').textContent=(net>=0?'+':'')+money(net);$('netPnl').className=net>=0?'green-text':'red-text';$('tradeCount').textContent=state.open.length+state.closed.length;$('winRate').textContent=state.closed.length?Math.round(state.closed.filter(t=>t.pnl>0).length/state.closed.length*100)+'%':'0%';$('openCount').textContent=state.open.length+' abiertas';
+$('openTrades').className=state.open.length?'':'empty';$('openTrades').innerHTML=state.open.length?state.open.map(t=>{const p=prices[t.asset]||t.lastPrice||t.entry,v=pnl(t,p);return `<div class="list-item"><div class="item-head"><b>${safe(t.asset)} · <span class="${t.side==='LONG'?'green-text':'red-text'}">${t.side}</span></b><span class="pill">Riesgo ${t.riskPct}%</span></div><div class="row"><div class="hint">Entrada: ${fmt(t.entry,8)}<br>Actual: ${fmt(p,8)}</div><div class="hint">SL: ${fmt(t.sl,8)}<br>TP: ${fmt(t.tp,8)}</div></div><div class="item-head" style="margin-top:8px"><span>P/L estimado</span><b class="${v>=0?'green-text':'red-text'}">${v>=0?'+':''}${money(v)}</b></div><button class="btn secondary close-demo" data-id="${t.id}">Cerrar operación</button></div>`}).join(''):'No tienes operaciones abiertas.';
+$('historyList').className=state.closed.length?'':'empty';$('historyList').innerHTML=state.closed.length?state.closed.map(t=>`<div class="list-item"><div class="item-head"><b>${safe(t.asset)} · ${safe(t.side)}</b><b class="${t.pnl>=0?'green-text':'red-text'}">${t.pnl>=0?'+':''}${money(t.pnl)}</b></div><div class="hint">Entrada: ${fmt(t.entry,8)} · Salida: ${fmt(t.exit,8)}<br>${safe(t.closeReason||'')} · ${new Date(t.closedAt).toLocaleString()}</div></div>`).join(''):'Todavía no hay operaciones cerradas.';
+document.querySelectorAll('.close-demo').forEach(b=>b.addEventListener('click',()=>{const t=state.open.find(x=>String(x.id)===b.dataset.id);if(t)closeTrade(t.id,prices[t.asset]||t.lastPrice,'Cierre manual')}));
+}
+async function checkPositions(){for(const t of [...state.open]){try{const p=await getPrice(t.asset);prices[t.asset]=p;t.lastPrice=p;const sl=t.side==='LONG'?p<=t.sl:p>=t.sl,tp=t.side==='LONG'?p>=t.tp:p<=t.tp;if(sl)closeTrade(t.id,t.sl,'Stop Loss');else if(tp)closeTrade(t.id,t.tp,'Take Profit')}catch(e){}}render()}
+async function connectWallet(){try{if(!window.ethereum)throw Error('Abre la página desde el navegador DApp de SafePal.');walletProvider=new ethers.providers.Web3Provider(window.ethereum,'any');await walletProvider.send('eth_requestAccounts',[]);signer=walletProvider.getSigner();walletAddress=await signer.getAddress();let net=await walletProvider.getNetwork();if(net.chainId!==56){try{await window.ethereum.request({method:'wallet_switchEthereumChain',params:[{chainId:'0x38'}]})}catch(e){if(e.code===4902)await window.ethereum.request({method:'wallet_addEthereumChain',params:[{chainId:'0x38',chainName:'BNB Smart Chain',nativeCurrency:{name:'BNB',symbol:'BNB',decimals:18},rpcUrls:['https://bsc-dataseed.bnbchain.org'],blockExplorerUrls:['https://bscscan.com']}]});else throw e}net=await walletProvider.getNetwork()}if(net.chainId!==56)throw Error('La wallet no está en BNB Smart Chain.');$('walletBtn').textContent=walletAddress.slice(0,5)+'...'+walletAddress.slice(-4);$('walletShort').textContent=walletAddress.slice(0,8)+'...'+walletAddress.slice(-6);$('walletNetwork').textContent='BNB Smart Chain';status('swapStatus','Wallet conectada.','var(--green)');await updateBalances()}catch(e){status('swapStatus',e.reason||e.message||'No se pudo conectar.','var(--red)')}}
+async function updateBalances(){if(!walletAddress||!walletProvider)return;try{const b=await walletProvider.getBalance(walletAddress);$('bnbBalance').textContent=fmt(ethers.utils.formatEther(b),6)+' BNB';const c=new ethers.Contract(USDT,ercAbi,walletProvider);const [bal,dec]=await Promise.all([c.balanceOf(walletAddress),c.decimals()]);$('usdtBalance').textContent=fmt(ethers.utils.formatUnits(bal,dec),4)+' USDT'}catch(e){$('bnbBalance').textContent='No disponible';$('usdtBalance').textContent='No disponible'}}
+function tokenAddr(t){return t==='BNB'?WBNB:t}
+const decimalsCache={};
+async function decimals(t){if(t==='BNB')return 18;if(decimalsCache[t]!==undefined)return decimalsCache[t];const c=new ethers.Contract(t,ercAbi,readProvider);const d=Number(await c.decimals());if(!Number.isInteger(d)||d<0||d>36)throw Error('Decimales inválidos');return decimalsCache[t]=d}
+function clearQuote(){$('swapOutput').value='';$('swapBtn').disabled=true;lastQuote=null}
+async function quote(){try{if(!readProvider)readProvider=new ethers.providers.JsonRpcProvider('https://bsc-dataseed.bnbchain.org');const from=$('swapFrom').value,to=$('swapTo').value,amount=$('swapAmount').value;if(!(Number(amount)>0)||from===to)throw Error('Revisa cantidad y tokens.');$('swapBtn').disabled=true;status('swapStatus','Consultando cotización...');const [df,dt]=await Promise.all([decimals(from),decimals(to)]);const amountIn=ethers.utils.parseUnits(amount,df),path=[tokenAddr(from),tokenAddr(to)];const router=new ethers.Contract(ROUTER,routerAbi,readProvider);const amounts=await router.getAmountsOut(amountIn,path);const minOut=amounts[1].mul(10000-Math.round(Number($('slippage').value)*100)).div(10000);$('swapOutput').value=fmt(ethers.utils.formatUnits(amounts[1],dt),8);lastQuote={from,to,df,dt,amountIn,minOut,path,amount};$('swapBtn').disabled=false;status('swapStatus','Cotización recibida. Revisa el importe mínimo y el slippage.','var(--green)')}catch(e){clearQuote();status('swapStatus',e.reason||e.message||'No se pudo cotizar.','var(--red)')}}
+async function executeSwap(){try{if(!signer||!walletAddress)throw Error('Conecta la wallet.');if(!lastQuote)throw Error('Solicita una cotización nueva.');if((await walletProvider.getNetwork()).chainId!==56)throw Error('Red incorrecta.');const q=lastQuote;if(!confirm('OPERACIÓN REAL. Revisa token, cantidad, slippage y comisión de red. ¿Confirmas que deseas continuar?'))return;$('swapBtn').disabled=true;const router=new ethers.Contract(ROUTER,routerAbi,signer),deadline=Math.floor(Date.now()/1000)+180;let tx;if(q.from==='BNB'){tx=await router.swapExactETHForTokens(q.minOut,q.path,walletAddress,deadline,{value:q.amountIn})}else{const token=new ethers.Contract(q.from,ercAbi,signer);const allowance=await token.allowance(walletAddress,ROUTER);if(allowance.lt(q.amountIn)){status('swapStatus','Solicitando aprobación del token...');const approval=await token.approve(ROUTER,q.amountIn);await approval.wait()}if(q.to==='BNB')tx=await router.swapExactTokensForETH(q.amountIn,q.minOut,q.path,walletAddress,deadline);else tx=await router.swapExactTokensForTokens(q.amountIn,q.minOut,q.path,walletAddress,deadline)}status('swapStatus','Transacción enviada: '+tx.hash);await tx.wait();status('swapStatus','Intercambio confirmado. Consulta BscScan: '+tx.hash,'var(--green)');clearQuote();await updateBalances()}catch(e){status('swapStatus',e.reason||e.message||'Transacción cancelada o fallida.','var(--red)')}finally{$('swapBtn').disabled=!lastQuote}}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===b.dataset.view));if(b.dataset.view==='chart')loadMainChart();if(b.dataset.view==='swap'){loadSwapChart();updateBalances()}}));
+$('themeBtn').onclick=()=>document.body.classList.toggle('light');
+$('walletBtn').onclick=connectWallet;
+$('asset').onchange=async()=>{$('entry').dataset.manual='';await loadDemoChart();subscribePrice(currentAsset());refreshPrice()};
+$('demoInterval').onchange=loadDemoChart;
+['entry','stop','target'].forEach(id=>$(id).addEventListener('input',()=>{if(id==='entry')$('entry').dataset.manual='1';updateLines()}));
+$('risk').onchange=updateRisk;
+$('longBtn').onclick=()=>openTrade('LONG');$('shortBtn').onclick=()=>openTrade('SHORT');
+$('resetDemo').onclick=()=>{if(confirm('¿Reiniciar el balance demo a $10,000 y borrar sus operaciones?')){state={balance:10000,initial:10000,open:[],closed:[]};save();render()}};
+$('clearHistory').onclick=()=>{if(confirm('¿Borrar el historial cerrado?')){state.closed=[];save();render()}};
+$('chartSymbol').onchange=loadMainChart;$('chartInterval').onchange=loadMainChart;$('loadChart').onclick=loadMainChart;
+$('swapChartSymbol').onchange=loadSwapChart;$('swapChartInterval').onchange=loadSwapChart;
+['swapAmount','swapFrom','swapTo','slippage'].forEach(id=>{ $(id).addEventListener('input',clearQuote);$(id).addEventListener('change',clearQuote)});
+$('reverseSwap').onclick=()=>{const x=$('swapFrom').value;$('swapFrom').value=$('swapTo').value;$('swapTo').value=x;clearQuote()};
+$('quoteBtn').onclick=quote;$('swapBtn').onclick=executeSwap;
+if(window.ethereum)window.ethereum.on?.('accountsChanged',()=>location.reload());
+render();loadDemoChart();subscribePrice(currentAsset());refreshPrice();
+setInterval(refreshPrice,10000);setInterval(checkPositions,5000);
 </script>
 </body>
 </html>
